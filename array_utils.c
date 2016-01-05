@@ -22,16 +22,22 @@ int areEqual(ArrayUtil a, ArrayUtil b){
 }
 
 ArrayUtil resize(ArrayUtil util, int length){
-  util.base = realloc(util.base,length);
-  util.length = length;
+  if(util.length < length){
+    util.base = realloc(util.base,length);
+    util.length = length;
+  } else {
+    util.base = realloc(util.base,util.length);
+  }
   return util;  
 }
 
 int findIndex(ArrayUtil util, void *element){
+  void *base = util.base;
   for(int i=0;i<util.length;i++){
-    if(((int *)util.base)[i] == *((int *)element)){
+    if(memcmp(base,element,util.type_size) == 0){
       return i;
     }
+    base = base+util.type_size;
   }
   return -1;
 }

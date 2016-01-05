@@ -12,7 +12,7 @@ void test_areEqual(){
   assert(1 == areEqual(b,c));
 }
 
-void test_resize(){
+void test_resize_to_resize_array_to_bigger_length(){
   ArrayUtil a = create(sizeof(int),7);
   assert(7 == a.length);
   ArrayUtil b = resize(a,10);
@@ -24,8 +24,19 @@ void test_resize(){
   assert(1 == areEqual(c,a));
 }
 
+void test_resize_to_resize_array_to_smaller_length(){
+  ArrayUtil a = create(sizeof(int),7);
+  assert(7 == a.length);
+  ArrayUtil b = resize(a,5);
+  assert(5 == b.length);
+
+  ArrayUtil c = create(sizeof(int),5);
+  assert(0 == areEqual(b,c));
+  assert(-1 == areEqual(a,c));
+}
+
 void test_findIndex(){
-  ArrayUtil a = create(sizeof(4),5);
+  ArrayUtil a = create(sizeof(int),5);
   for(int i=0;i<a.length;i++){
      ((int *)a.base)[i] = i+4;
   }
@@ -33,11 +44,21 @@ void test_findIndex(){
   int number1 = 6;
   assert(-1 == findIndex(a,&number));
   assert(2 == findIndex(a,&number1));
+
+  ArrayUtil alphabets = create(sizeof(char),10);
+  for(int i=0;i<alphabets.length;i++){
+    ((char *)alphabets.base)[i] = 65+i;
+  }
+  int alphabet = 'D';
+  int alphabet1 = 'Z';
+  assert(3 == findIndex(alphabets,&alphabet));
+  assert(-1 == findIndex(alphabets,&alphabet1));
 } 
+
 
 int main(void){
   test_areEqual();
-  test_resize();
+  test_resize_to_resize_array_to_bigger_length();
   test_findIndex();
   return 0;
 }
