@@ -4,8 +4,10 @@ typedef struct array {
   int length;
 } ArrayUtil;
 
-ArrayUtil create(int,int);
+ArrayUtil create(int, int);
 
-int areEqual(ArrayUtil ,ArrayUtil);
+int areEqual(ArrayUtil, ArrayUtil);
 
-ArrayUtil (ArrayUtil , int);
+ArrayUtil resize(ArrayUtil, int);
+
+int findIndex(ArrayUtil, void*);

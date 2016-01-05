@@ -21,3 +21,17 @@ int areEqual(ArrayUtil a, ArrayUtil b){
   }
 }
 
+ArrayUtil resize(ArrayUtil util, int length){
+  util.base = realloc(util.base,length);
+  util.length = length;
+  return util;  
+}
+
+int findIndex(ArrayUtil util, void *element){
+  for(int i=0;i<util.length;i++){
+    if(((int *)util.base)[i] == *((int *)element)){
+      return i;
+    }
+  }
+  return -1;
+}
