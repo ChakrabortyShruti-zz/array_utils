@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include "array_utils.h"
 
@@ -32,7 +33,7 @@ void test_resize_to_resize_array_to_smaller_length(){
 
   ArrayUtil c = create(sizeof(int),5);
   assert(0 == areEqual(b,c));
-  assert(-1 == areEqual(a,c));
+  assert(1 == areEqual(a,c));
 }
 
 void test_findIndex(){
@@ -44,6 +45,7 @@ void test_findIndex(){
   int number1 = 6;
   assert(-1 == findIndex(a,&number));
   assert(2 == findIndex(a,&number1));
+  dispose(a);
 
   ArrayUtil alphabets = create(sizeof(char),10);
   for(int i=0;i<alphabets.length;i++){
@@ -53,12 +55,84 @@ void test_findIndex(){
   int alphabet1 = 'Z';
   assert(3 == findIndex(alphabets,&alphabet));
   assert(-1 == findIndex(alphabets,&alphabet1));
-} 
+  dispose(alphabets);
+}
 
+void test_findFirst_isEven(){
+  ArrayUtil a = create(sizeof(4),5);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i+3;
+  }
+  int firstFirst_Of_isEven = *((int *)findFirst(a,&isEven,0));
+  assert(4 == firstFirst_Of_isEven);
+}
 
-int main(void){
-  test_areEqual();
-  test_resize_to_resize_array_to_bigger_length();
-  test_findIndex();
-  return 0;
+void test_findFirst_isDivisible(){
+  ArrayUtil a = create(sizeof(4),7);
+  for(int i = 0; i<a.length;i++){
+    ((int *)a.base)[i] = i+5;
+  }
+  int hint = 4;
+  int findFirst_Of_isDivisible = *((int *)findFirst(a,&isDivisible,&hint));
+  assert(8 == findFirst_Of_isDivisible);
+  int hint1 = 7;
+  int findFirst_Of_isDivisible1 = *((int *)findFirst(a,&isDivisible,&hint1));
+  assert(7 == findFirst_Of_isDivisible1);
+}
+
+void test_findLast_isEven(){
+  ArrayUtil a = create(sizeof(4),4);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i+5;
+  }
+  int firstLast_Of_isEven = *((int *)findLast(a,&isEven,0));
+  assert(8 == firstLast_Of_isEven);
+}
+
+void test_findLast_isDivisible(){
+  ArrayUtil a = create(sizeof(4),4);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i+5;
+  }
+  int hint = 3;
+  int firstLast_Of_isDivisible = *((int *)findLast(a,&isDivisible,&hint));
+  assert(6 == firstLast_Of_isDivisible);
+}
+
+void test_count_isEven(){
+  ArrayUtil a = create(sizeof(4),6);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i;
+  }
+  assert(3 == count(a,&isEven,0));
+}
+
+void test_count_isDivisible(){
+  ArrayUtil a = create(sizeof(4),5);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i;
+  }
+  int hint =2;
+  assert(3 == count(a,&isDivisible,&hint));
+}
+
+void test_count_with_isDivisible(){
+  ArrayUtil a = create(sizeof(4),7);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i+2;
+  }
+  int hint = 3;
+  assert(2 == count(a,&isDivisible,&hint));
+}
+
+void test_filter_function(){
+  ArrayUtil a = create(sizeof(4),5);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i+3;
+  }
+ void *array;
+ int hint = 2;
+ int count = filter(a,&isDivisible,&hint,&array,5);
+ int *result = (int *) array;
+ assert(2 == count);
 }

@@ -22,12 +22,8 @@ int areEqual(ArrayUtil a, ArrayUtil b){
 }
 
 ArrayUtil resize(ArrayUtil util, int length){
-  if(util.length < length){
-    util.base = realloc(util.base,length);
-    util.length = length;
-  } else {
-    util.base = realloc(util.base,util.length);
-  }
+  util.base = realloc(util.base,length);
+  util.length = length;
   return util;  
 }
 
@@ -40,4 +36,65 @@ int findIndex(ArrayUtil util, void *element){
     base = base+util.type_size;
   }
   return -1;
+}
+
+void dispose(ArrayUtil util){
+  void *base = util.base;
+  util.length = 0;
+  util.type_size = 0;
+  free(util.base);
+}
+
+int isEven(void *hint,void *item){
+  return (*(int *)item % 2 == 0);
+}
+
+int isDivisible(void *hint,void *item){
+  return (*(int *)item) % (*(int *)hint) == 0;
+}
+
+void *findFirst(ArrayUtil util,MatchFunc *match,void *hint){
+ void* base = util.base;
+  for(int i=0;i<util.length;i++){
+    if(match(hint,base) == 1)
+      return base;
+    base = base+util.type_size;
+  }
+  return NULL;
+}
+
+void *findLast(ArrayUtil util,MatchFunc *match,void *hint){
+ void* base = util.base + (util.length-1)*util.type_size;
+  for(int i=0;i<util.length;i++){
+    if(match(hint,base) == 1){
+      return base;
+    }
+    base = base-util.type_size;
+  }
+  return NULL;
+}
+
+
+int count(ArrayUtil util,MatchFunc *match,void *hint){
+ void* base = util.base;
+ int count=0;
+  for(int i=0;i<util.length;i++){
+    if(match(hint,base) == 1)
+      count++;
+    base = base+util.type_size;
+  }
+  return count;
+}
+
+int filter(ArrayUtil util,MatchFunc *match,void *hint,void **destination,int maxItems){
+  int count = 0;
+  void* base = util.base;
+  for(int i=0;(i<util.length && count<maxItems);i++){
+    if(match(hint,base)==1){
+      destination[count] = base;
+      count++;
+    }
+    base = base + util.type_size;
+  }
+  return count;
 }
