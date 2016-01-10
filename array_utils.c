@@ -98,3 +98,15 @@ int filter(ArrayUtil util,MatchFunc *match,void *hint,void **destination,int max
   }
   return count;
 }
+
+void add_one(void *hint,void *sourceItem,void *destinationItem){
+  *(int *)destinationItem = *((int *)sourceItem) + *((int *)hint);
+}
+
+void map(ArrayUtil util,ArrayUtil destination,ConvertFunc *convert,void *hint){
+  void *base = util.base;
+  void *dest = destination.base;
+  for(int i=0;i<util.length*util.type_size;i+=util.type_size){
+    (convert)(hint,base+i,dest+i);
+  }
+}

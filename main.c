@@ -136,3 +136,18 @@ void test_filter_function(){
  int *result = (int *) array;
  assert(2 == count);
 }
+
+void test_map_function(){
+  ArrayUtil a = create(sizeof(4),5);
+  for(int i=0;i<a.length;i++){
+   ((int *)a.base)[i] = i+3;
+  }
+  int hint = 1;
+  ArrayUtil array = create(sizeof(4),5);
+  ConvertFunc *func = &add_one;
+  map(a,array,func,&hint);
+  assert(5 == ((int *)a.base)[2]);
+  assert(6 == ((int *)array.base)[2]);
+  assert(7 == ((int *)array.base)[3]);
+}
+

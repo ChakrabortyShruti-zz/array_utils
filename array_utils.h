@@ -6,6 +6,8 @@ typedef struct array {
 
 typedef int MatchFunc (void*,void*);
 
+typedef void ConvertFunc(void *,void *,void *);
+
 ArrayUtil create(int, int);
 
 int areEqual(ArrayUtil, ArrayUtil);
@@ -27,3 +29,7 @@ void* findLast(ArrayUtil util,MatchFunc *match, void *hint);
 int count(ArrayUtil util,MatchFunc *match, void *hint);
 
 int filter(ArrayUtil util,MatchFunc *match,void *hint,void **destination,int maxItems);
+
+void add_one(void *hint, void* sourceItem,void* destinationItem);
+
+void map(ArrayUtil util,ArrayUtil destination,ConvertFunc* convert,void *hint);
