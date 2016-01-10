@@ -8,6 +8,8 @@ typedef int MatchFunc (void*,void*);
 
 typedef void ConvertFunc(void *,void *,void *);
 
+typedef void OperationFunc(void *,void *);
+
 ArrayUtil create(int, int);
 
 int areEqual(ArrayUtil, ArrayUtil);
@@ -33,3 +35,7 @@ int filter(ArrayUtil util,MatchFunc *match,void *hint,void **destination,int max
 void add_one(void *hint, void* sourceItem,void* destinationItem);
 
 void map(ArrayUtil util,ArrayUtil destination,ConvertFunc* convert,void *hint);
+
+void add_it(void *,void *);
+
+void forEach(ArrayUtil util,OperationFunc *operation,void * hint);

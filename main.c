@@ -151,3 +151,16 @@ void test_map_function(){
   assert(7 == ((int *)array.base)[3]);
 }
 
+void test_forEach(){
+  ArrayUtil a = create(sizeof(4),7);
+  for(int i=0; i<a.length; i++){
+    ((int *)a.base)[i] = i+5;
+  }
+  int hint = 1;
+  OperationFunc *func = &add_it;
+  forEach(a,func,&hint);
+  assert(6 == ((int *)a.base)[0]);
+  assert(7 == ((int *)a.base)[1]);
+  assert(8 == ((int *)a.base)[2]);
+}
+
