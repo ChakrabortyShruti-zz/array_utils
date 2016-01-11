@@ -10,6 +10,8 @@ typedef void ConvertFunc(void *,void *,void *);
 
 typedef void OperationFunc(void *,void *);
 
+typedef void* ReducerFunc(void *,void *,void *);
+
 ArrayUtil create(int, int);
 
 int areEqual(ArrayUtil, ArrayUtil);
@@ -39,3 +41,7 @@ void map(ArrayUtil util,ArrayUtil destination,ConvertFunc* convert,void *hint);
 void add_it(void *,void *);
 
 void forEach(ArrayUtil util,OperationFunc *operation,void * hint);
+
+void* add_all(void *,void *,void *);
+
+void* reduce(ArrayUtil util,ReducerFunc *reducer,void *hint,void *initialValue);

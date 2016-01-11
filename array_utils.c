@@ -121,3 +121,17 @@ void forEach(ArrayUtil util,OperationFunc *operation,void *hint){
     operation(hint,base+i);
   }
 }
+
+void* add_all(void *hint,void *previousItem,void *item){
+  *(int *)item = *(int *)previousItem + *(int *)item;
+  return (int *)item;
+}
+
+void* reduce(ArrayUtil util,ReducerFunc* reducer,void *hint,void *initialValue){
+  void *base = util.base;
+  for(int i=0; i<util.length*util.type_size; i+=util.type_size){
+    void *result = reducer(hint,initialValue,base+i);
+    initialValue = result;
+  }
+  return initialValue;
+}

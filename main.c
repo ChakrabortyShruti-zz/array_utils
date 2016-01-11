@@ -59,7 +59,7 @@ void test_findIndex(){
 }
 
 void test_findFirst_isEven(){
-  ArrayUtil a = create(sizeof(4),5);
+  ArrayUtil a = create(sizeof(int),5);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i+3;
   }
@@ -68,7 +68,7 @@ void test_findFirst_isEven(){
 }
 
 void test_findFirst_isDivisible(){
-  ArrayUtil a = create(sizeof(4),7);
+  ArrayUtil a = create(sizeof(int),7);
   for(int i = 0; i<a.length;i++){
     ((int *)a.base)[i] = i+5;
   }
@@ -81,7 +81,7 @@ void test_findFirst_isDivisible(){
 }
 
 void test_findLast_isEven(){
-  ArrayUtil a = create(sizeof(4),4);
+  ArrayUtil a = create(sizeof(int),4);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i+5;
   }
@@ -90,7 +90,7 @@ void test_findLast_isEven(){
 }
 
 void test_findLast_isDivisible(){
-  ArrayUtil a = create(sizeof(4),4);
+  ArrayUtil a = create(sizeof(int),4);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i+5;
   }
@@ -100,7 +100,7 @@ void test_findLast_isDivisible(){
 }
 
 void test_count_isEven(){
-  ArrayUtil a = create(sizeof(4),6);
+  ArrayUtil a = create(sizeof(int),6);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i;
   }
@@ -108,7 +108,7 @@ void test_count_isEven(){
 }
 
 void test_count_isDivisible(){
-  ArrayUtil a = create(sizeof(4),5);
+  ArrayUtil a = create(sizeof(int),5);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i;
   }
@@ -117,7 +117,7 @@ void test_count_isDivisible(){
 }
 
 void test_count_with_isDivisible(){
-  ArrayUtil a = create(sizeof(4),7);
+  ArrayUtil a = create(sizeof(int),7);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i+2;
   }
@@ -126,7 +126,7 @@ void test_count_with_isDivisible(){
 }
 
 void test_filter_function(){
-  ArrayUtil a = create(sizeof(4),5);
+  ArrayUtil a = create(sizeof(int),5);
   for(int i=0;i<a.length;i++){
     ((int *)a.base)[i] = i+3;
   }
@@ -138,12 +138,12 @@ void test_filter_function(){
 }
 
 void test_map_function(){
-  ArrayUtil a = create(sizeof(4),5);
+  ArrayUtil a = create(sizeof(int),5);
   for(int i=0;i<a.length;i++){
    ((int *)a.base)[i] = i+3;
   }
   int hint = 1;
-  ArrayUtil array = create(sizeof(4),5);
+  ArrayUtil array = create(sizeof(int),5);
   ConvertFunc *func = &add_one;
   map(a,array,func,&hint);
   assert(5 == ((int *)a.base)[2]);
@@ -152,7 +152,7 @@ void test_map_function(){
 }
 
 void test_forEach(){
-  ArrayUtil a = create(sizeof(4),7);
+  ArrayUtil a = create(sizeof(int),7);
   for(int i=0; i<a.length; i++){
     ((int *)a.base)[i] = i+5;
   }
@@ -164,3 +164,13 @@ void test_forEach(){
   assert(8 == ((int *)a.base)[2]);
 }
 
+void test_reduce(){
+  ArrayUtil a = create(sizeof(int),5);
+  for(int i=0;i<a.length;i++){
+    ((int *)a.base)[i] = i;
+  }
+  int hint = 0;
+  int initialValue = 1;
+  int result = *(int *)reduce(a,&add_all,&hint,&initialValue);
+  assert(11 == result);
+}
